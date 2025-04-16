@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ Route::get('/shop', function () {
 
 Route::get('/shop/product/{product}', function ($product) {
     $product = \App\Models\Product::findOrFail($product);
-    return view('shop.product', compact('product'));
+    return view('shop.detailproduct', compact('product'));
 })->name('shop.product');
 
 Route::get('/shop/all', function () {
@@ -52,14 +53,14 @@ Route::post('/newsletter/subscribe', function () {
 Route::middleware(['auth'])->group(function () {
     // Create order
     Route::post('/order/{productId}', [OrderController::class, 'store'])->name('order.store');
-    
+
     // Payment
     Route::get('/payment/{order}', [OrderController::class, 'payment'])->name('payment');
     Route::post('/payment/{order}', [OrderController::class, 'uploadPaymentProof'])->name('payment.upload');
-    
+
     // User dashboard - Order history
     Route::get('/history', [OrderController::class, 'history'])->name('history');
-    
+
     // Profile
     Route::get('/profile', function () {
         return view('profile');
@@ -70,8 +71,11 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     // Orders inbox
     Route::get('/inbox', [AdminOrderController::class, 'index'])->name('inbox');
     Route::put('/order/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('order.status');
+
+    // Products management
+    Route::resource('products', ProductController::class);
 });

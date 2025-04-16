@@ -25,10 +25,10 @@ class OrderController extends Controller
         // Get product
         $product = Product::findOrFail($productId);
         $quantity = $request->quantity ?? 1;
-        
+
         // Calculate total price
         $totalPrice = $product->price * $quantity;
-        
+
         // Create new order
         $order = Order::create([
             'user_id' => Auth::id(),
@@ -37,7 +37,7 @@ class OrderController extends Controller
             'total_price' => $totalPrice,
             'shipping_address' => $request->shipping_address,
         ]);
-        
+
         // Create order item
         OrderItems::create([
             'order_id' => $order->id,
@@ -45,11 +45,11 @@ class OrderController extends Controller
             'quantity' => $quantity,
             'price' => $product->price,
         ]);
-        
+
         return redirect()->route('payment', ['order' => $order->id])
             ->with('success', 'Order created successfully. Please complete your payment.');
     }
-    
+
     /**
      * Show payment page
      */
@@ -59,10 +59,10 @@ class OrderController extends Controller
         if ($order->user_id !== Auth::id()) {
             abort(403);
         }
-        
+
         return view('shop.payment', compact('order'));
     }
-    
+
     /**
      * Upload payment proof
      */
@@ -72,27 +72,27 @@ class OrderController extends Controller
         if ($order->user_id !== Auth::id()) {
             abort(403);
         }
-        
+
         $request->validate([
             'payment_proof' => 'required|image|max:2048', // max 2MB
         ]);
-        
+
         if ($request->hasFile('payment_proof')) {
             $file = $request->file('payment_proof');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('payment_proofs', $fileName, 'public');
-            
+
             $order->payment_proof = 'storage/' . $filePath;
             $order->status = 'Paid'; // Change to Paid after proof uploaded
             $order->save();
-            
+
             return redirect()->route('history')
                 ->with('success', 'Payment proof uploaded successfully. Your order is being processed.');
         }
-        
+
         return back()->with('error', 'Failed to upload payment proof.');
     }
-    
+
     /**
      * Show order history for the user
      */

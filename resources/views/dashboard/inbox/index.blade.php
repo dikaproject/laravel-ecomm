@@ -5,13 +5,13 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-primary mb-8">Order Inbox</h1>
-    
+
     @if (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
-    
+
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -78,68 +78,63 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $order->created_at->format('d M Y, h:i A') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="relative inline-block text-left">
                                     <button onclick="toggleDropdown('dropdown-{{ $order->id }}')" class="text-primary hover:text-red-900">
                                         Update Status
                                     </button>
-                                    
+
                                     <!-- Dropdown menu -->
                                     <div id="dropdown-{{ $order->id }}" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                                         <div class="py-1">
                                             <form action="{{ route('admin.order.status', $order->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                
                                                 <input type="hidden" name="status" value="Pending">
                                                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    Mark as Pending
+                                                    Pending
                                                 </button>
                                             </form>
-                                            
+
                                             <form action="{{ route('admin.order.status', $order->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                
                                                 <input type="hidden" name="status" value="Paid">
                                                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    Mark as Paid
+                                                    Paid
                                                 </button>
                                             </form>
-                                            
+
                                             <form action="{{ route('admin.order.status', $order->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                
                                                 <input type="hidden" name="status" value="Shipped">
                                                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    Mark as Shipped
+                                                    Shipped
                                                 </button>
                                             </form>
-                                            
+
                                             <form action="{{ route('admin.order.status', $order->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                
                                                 <input type="hidden" name="status" value="Completed">
                                                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    Mark as Completed
+                                                    Completed
                                                 </button>
                                             </form>
-                                            
+
                                             <form action="{{ route('admin.order.status', $order->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                
                                                 <input type="hidden" name="status" value="Cancelled">
-                                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                                    Cancel Order
+                                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                    Cancelled
                                                 </button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- View Payment Proof button -->
                                 @if ($order->payment_proof)
                                     <a href="#" onclick="openPaymentProofModal('{{ asset($order->payment_proof) }}')" class="text-blue-600 hover:text-blue-900 ml-4">
@@ -158,13 +153,13 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Pagination -->
         <div class="px-6 py-3 border-t">
             {{ $orders->links() }}
         </div>
     </div>
-    
+
     <!-- Payment Proof Modal -->
     <div id="paymentProofModal" class="fixed inset-0 z-50 hidden overflow-auto bg-black bg-opacity-50">
         <div class="flex items-center justify-center min-h-screen px-4">
@@ -192,14 +187,14 @@
     function toggleDropdown(id) {
         const dropdown = document.getElementById(id);
         dropdown.classList.toggle('hidden');
-        
+
         // Close other dropdowns
         document.querySelectorAll('[id^="dropdown-"]').forEach(el => {
             if (el.id !== id && !el.classList.contains('hidden')) {
                 el.classList.add('hidden');
             }
         });
-        
+
         // Close dropdown when clicking outside
         document.addEventListener('click', event => {
             if (!event.target.closest('button') && !event.target.closest(`#${id}`)) {
@@ -207,14 +202,14 @@
             }
         });
     }
-    
+
     // Payment proof modal functions
     function openPaymentProofModal(imageSrc) {
         document.getElementById('proofImage').src = imageSrc;
         document.getElementById('paymentProofModal').classList.remove('hidden');
         document.body.style.overflow = 'hidden';
     }
-    
+
     function closePaymentProofModal() {
         document.getElementById('paymentProofModal').classList.add('hidden');
         document.body.style.overflow = '';
