@@ -6,72 +6,82 @@
 <div class="min-h-screen flex items-center justify-center bg-primary">
     <div class="absolute inset-0 overflow-hidden">
         <div class="absolute text-white text-opacity-10 font-serif text-9xl transform -rotate-12 left-1/4 top-1/3">
-            GETOURTHRIFT
+            GetOurThrift
         </div>
     </div>
 
     <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 z-10">
+        <div class="text-center mb-8">
+            <a href="{{ route('home') }}" class="inline-block">
+                <h1 class="text-3xl font-bold text-primary">GetOurThrift</h1>
+            </a>
+        </div>
+
         <h2 class="text-3xl font-bold text-center mb-2">Login</h2>
         <p class="text-center text-gray-600 mb-8">Masuk untuk bisa mendapatkan baju thriftmu</p>
 
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('login') }}">
             @csrf
-            
             <div class="mb-4">
-                <label for="email" class="block text-gray-700 mb-2">Email</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    value="{{ old('email') }}" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" 
-                    placeholder="Email" 
-                    required 
+                <label for="email" class="block text-gray-700 text-sm font-medium mb-2">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required
                     autofocus
                 >
-                @error('email')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
             </div>
 
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700 mb-2">Kata Sandi</label>
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <label for="password" class="block text-gray-700 text-sm font-medium">Password</label>
+                    <a href="#" class="text-sm text-primary hover:underline">Forgot password?</a>
+                </div>
                 <div class="relative">
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" 
-                        placeholder="Kata Sandi" 
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         required
                     >
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         onclick="togglePasswordVisibility()"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="eyeIcon">
+                        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                     </button>
                 </div>
-                @error('password')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
             </div>
 
-            <div class="mt-8">
-                <button type="submit" class="w-full bg-gray-900 text-white font-medium py-3 rounded-md hover:bg-black transition duration-300">
-                    Masuk
-                </button>
-            </div>
+            <button
+                type="submit"
+                class="w-full bg-primary text-white font-medium py-3 px-4 rounded-md hover:bg-red-700 transition"
+            >
+                Login
+            </button>
         </form>
 
         <div class="mt-8 text-center">
-            <p class="text-gray-600">
-                Belum memiliki akun? 
-                <a href="{{ route('register') }}" class="text-primary hover:underline">Daftar</a>
+            <p class="text-gray-600">Don't have an account?
+                <a href="{{ route('register') }}" class="text-primary font-medium hover:underline">Register</a>
             </p>
         </div>
     </div>
@@ -83,7 +93,7 @@
     function togglePasswordVisibility() {
         const passwordInput = document.getElementById('password');
         const eyeIcon = document.getElementById('eyeIcon');
-        
+
         if (passwordInput.type === 'password') {
             passwordInput.type = 'text';
             eyeIcon.innerHTML = `
