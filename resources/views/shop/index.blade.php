@@ -50,21 +50,6 @@
         </div>
     </div>
     
-    <!-- Newsletter Section -->
-    <section class="bg-primary text-white py-10 px-4">
-        <div class="container mx-auto">
-            <div class="max-w-xl mx-auto">
-                <h3 class="text-2xl font-bold mb-4">Get On the List!</h3>
-                <p class="text-white/80 mb-6">Sign Up with your email address to receive updates</p>
-                
-                <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex flex-col sm:flex-row gap-2">
-                    @csrf
-                    <input type="email" name="email" placeholder="Your email..." class="px-4 py-2 border border-white/20 bg-white/10 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-white flex-grow" required>
-                    <button type="submit" class="px-6 py-2 bg-white text-primary font-medium rounded-md hover:bg-gray-100 transition">Subscribe</button>
-                </form>
-            </div>
-        </div>
-    </section>
 @endsection
 
 @push('styles')

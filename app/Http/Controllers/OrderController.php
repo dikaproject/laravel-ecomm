@@ -101,4 +101,15 @@ class OrderController extends Controller
         $orders = Auth::user()->orders()->with('items.product')->latest()->get();
         return view('dashboard.history.index', compact('orders'));
     }
+
+    // function show detail order for user
+    public function show(Order $order)
+    {
+        // Check if order belongs to current user
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        return view('dashboard.history.show', compact('order'));
+    }
 }

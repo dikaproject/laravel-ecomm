@@ -44,7 +44,7 @@
                 <div class="mb-4">
                     <p class="mb-2">Scan this QR code to complete payment:</p>
                     <div class="flex justify-center">
-                        <img src="{{ asset('images/qris.png') }}" alt="QRIS Code" class="w-48 h-48">
+                        <img src="{{ asset('images/qris.jpg') }}" alt="QRIS Code" class="w-48 h-48">
                     </div>
                 </div>
             @else

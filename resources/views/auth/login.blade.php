@@ -48,7 +48,6 @@
             <div class="mb-6">
                 <div class="flex items-center justify-between mb-2">
                     <label for="password" class="block text-gray-700 text-sm font-medium">Password</label>
-                    <a href="#" class="text-sm text-primary hover:underline">Forgot password?</a>
                 </div>
                 <div class="relative">
                     <input

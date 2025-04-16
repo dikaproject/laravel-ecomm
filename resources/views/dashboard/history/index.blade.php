@@ -29,7 +29,7 @@
                                 <h3 class="text-lg font-semibold">Order #{{ $order->id }}</h3>
                                 <p class="text-sm text-gray-500">{{ $order->created_at->format('d M Y, h:i A') }}</p>
                             </div>
-                            <div>
+                            <div class="flex items-center gap-3">
                                 @switch($order->status)
                                     @case('Pending')
                                         <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Pending</span>
@@ -69,11 +69,17 @@
                             <span class="font-semibold ml-1">Rp. {{ number_format($order->total_price, 0, ',', '.') }}</span>
                         </div>
                         
-                        @if ($order->status === 'Pending')
-                            <a href="{{ route('payment', $order->id) }}" class="px-4 py-1 bg-primary text-white text-sm font-medium rounded-md hover:bg-red-700 transition">
-                                Complete Payment
+                        <div class="flex space-x-3">
+                            @if ($order->status === 'Pending')
+                                <a href="{{ route('payment', $order->id) }}" class="px-4 py-1 bg-primary text-white text-sm font-medium rounded-md hover:bg-red-700 transition">
+                                    Complete Payment
+                                </a>
+                            @endif
+                            
+                            <a href="{{ route('history.show', $order->id) }}" class="px-4 py-1 border border-primary text-primary text-sm font-medium rounded-md hover:bg-primary hover:text-white transition">
+                                View Details
                             </a>
-                        @endif
+                        </div>
                     </div>
                 </div>
             @endforeach
